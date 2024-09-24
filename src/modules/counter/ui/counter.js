@@ -4,36 +4,45 @@ import {
   counterIncrementButton,
   counterResetButton,
 } from "./action-ui";
-import { counterTitle } from "./title-ui";
 
-const selectValue = (state) => state.counter.value;
+/**
+ * Мы сохраняем ссылку на объект, тем самым если объект есть в памяти, то компонент не будет перерисован полностью
+ */
+let counterElem;
 
 export function counterComponent() {
-  const element = document.createElement("div");
-  element.classList.add("counter-component");
-  console.log("counter render");
+  if (!counterElem) {
+    counterElem = document.createElement("div");
+    counterElem.classList.add("counter-component");
 
-  render(element);
-  return element;
+    render(counterElem);
+  }
+
+  return counterElem;
 }
 
 function render(element) {
+  const counterTitle = document.createElement("h2");
+  counterTitle.textContent = "Заголовок счётчика. Активных кликов: ";
+
   const counterComponent = document.createElement("div");
   counterComponent.classList.add("btns");
-  const titleText = "Заголовок счётчика. Активных кликов:";
 
-  const title = counterTitle(`${titleText} `);
   const btnIncrement = counterIncrementButton();
   const btnDecrement = counterDecrementButton();
   const btnReset = counterResetButton();
 
-  const updateTitleLabel = () => {
-    const titleCount = selectValue(store.getState());
-    title.textContent = `${titleText} ${titleCount}`;
-  };
+  store.subscribe(() => updateTitleLabel(counterTitle));
 
-  store.subscribe(() => updateTitleLabel());
-
-  counterComponent.append(title, btnIncrement, btnDecrement, btnReset);
-  return element.append(counterComponent);
+  counterComponent.append(counterTitle, btnIncrement, btnDecrement, btnReset);
+  element.append(counterComponent);
 }
+
+const updateTitleLabel = (contentTitle) => {
+  const selectValue = (state) => state.counter.value;
+
+  const titleText = "Заголовок счётчика. Активных кликов:";
+  const titleCount = selectValue(store.getState());
+
+  contentTitle.innerHTML = `${titleText} ${titleCount}`;
+};
