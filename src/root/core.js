@@ -1,6 +1,7 @@
 import { counterComponent } from "../modules/counter/ui/counter";
 import { switchActions } from "../modules/switcher";
 import { switchButton } from "../modules/switcher/ui/switch-button";
+import { todoComponent } from "../modules/todo";
 import { store } from "./store";
 
 const showModule = (state) => state.switcher.activeModule;
@@ -39,10 +40,9 @@ function render(element, module) {
       break;
 
     case switchActions.SWITCH_TODO:
-      const todoComponent = document.createElement("div");
-      todoComponent.append("todo element");
+      const component = todoComponent();
 
-      element.append(todoComponent);
+      element.append(component);
       break;
 
     default:
