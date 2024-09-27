@@ -7,7 +7,7 @@ export const switchActions = {
 };
 
 const initialState = {
-  activeModule: switchActions.SWITCH_TODO,
+  activeModule: switchActions.SWITCH_GALLERY,
 };
 
 const actions = {

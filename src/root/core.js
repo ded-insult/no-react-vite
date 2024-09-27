@@ -1,4 +1,5 @@
 import { counterComponent } from "../modules/counter/ui/counter";
+import { carouselList } from "../modules/gallery";
 import { switchActions } from "../modules/switcher";
 import { switchButton } from "../modules/switcher/ui/switch-button";
 import { todoComponent } from "../modules/todo";
@@ -33,10 +34,9 @@ function render(element, module) {
       break;
 
     case switchActions.SWITCH_GALLERY:
-      const galleryComp = document.createElement("div");
-      galleryComp.append("gallery element");
+      const gallery = carouselList();
 
-      element.append(galleryComp);
+      element.append(gallery);
       break;
 
     case switchActions.SWITCH_TODO:
