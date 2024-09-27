@@ -16,25 +16,22 @@ import { createReducer } from "../../utils/create-reducer";
  */
 const initialState = {
   todos: [],
+  filteredTodos: [],
+  isFiltered: false,
 };
 
 export const todoActions = {
   REMOVE: "remove",
   ADD: "add",
-  RENAME: "rename",
+  FIND_BY_NAME: "find by name",
+  RESET_FILTERS: "reset filters",
   COMPLETE: "complete",
   UNCOMPLETE: "non complete",
 };
 
 const actions = {
-  // [todoActions.ADD]: (state, payload) => [
-  //   ...(state.length ? [...state] : []),
-  //   {
-  //     name: payload,
-  //     status: "progress",
-  //   },
-  // ],
   [todoActions.ADD]: (state, payload) => ({
+    ...state,
     todos: [
       ...state.todos,
       {
@@ -46,17 +43,36 @@ const actions = {
   [todoActions.REMOVE]: (state, payload) => {
     return;
   },
-  [todoActions.RENAME]: (state, payload) => {},
+  [todoActions.FIND_BY_NAME]: (state, payload) => {
+    const filtered = state.todos.filter((todo) =>
+      todo.name.includes(payload.toLowerCase())
+    );
+
+    return {
+      ...state,
+      isFiltered: true,
+      filteredTodos: filtered,
+    };
+  },
+  [todoActions.RESET_FILTERS]: (state) => {
+    return {
+      ...state,
+      isFiltered: false,
+      filteredTodos: state.todos,
+    };
+  },
   [todoActions.COMPLETE]: (state, payload) => {
     return {
-      todos: state.todos.map((todo) => {
-        return todo?.name === payload ? { ...todo, status: "complete" } : todo;
-      }),
+      ...state,
+      todos: state.todos.map((todo) =>
+        todo?.name === payload ? { ...todo, status: "complete" } : todo
+      ),
     };
   },
 
   [todoActions.UNCOMPLETE]: (state, payload) => {
     return {
+      ...state,
       todos: state.todos.map((todo) => {
         return todo?.name === payload ? { ...todo, status: "progress" } : todo;
       }),

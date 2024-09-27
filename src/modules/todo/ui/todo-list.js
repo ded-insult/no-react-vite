@@ -18,10 +18,20 @@ export function todoList() {
 }
 
 function render(element) {
-  const todosSelector = store.getState().todo;
   element.innerHTML = "";
 
-  todosSelector.todos?.forEach((el) => {
+  const noElementsComponent = document.createElement("h2");
+  noElementsComponent.textContent = "Нет задач";
+
+  const todosSelector = store.getState().todo.todos;
+  const filteredTodosSelector = store.getState().todo.filteredTodos;
+  const isFiltered = store.getState().todo.isFiltered;
+
+  const resultTodoList = isFiltered ? filteredTodosSelector : todosSelector;
+
+  if (!resultTodoList.length) element.append(noElementsComponent);
+
+  resultTodoList.forEach((el) => {
     const li = document.createElement("li");
     let todoStatus = el.status === "progress" ? "В прогрессе" : "Выполнено";
 

@@ -11,7 +11,7 @@ export function switchButton() {
   todo.classList.add("switcher");
   todo.dataset.switcher = switchActions.SWITCH_TODO;
 
-  const gallery = button("Смотреть список задач");
+  const gallery = button("Смотреть галлерею");
   gallery.classList.add("switcher");
   gallery.dataset.switcher = switchActions.SWITCH_GALLERY;
 

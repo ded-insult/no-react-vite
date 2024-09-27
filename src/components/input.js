@@ -7,5 +7,5 @@ export function textfield(content) {
 }
 
 function render(element, content) {
-  element.append(content);
+  element.placeholder = content;
 }
